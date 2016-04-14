@@ -8,7 +8,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "SET NODE_ENV=test && node node_modules/mocha/bin/_mocha --recursive"
   },
   "author": "",
   "license": "ISC",

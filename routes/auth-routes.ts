@@ -6,7 +6,7 @@ import { isAuthenticated } from '../routes/authMiddlware';
 
 var router = Router();
 
-router.post('/singup', function (req: Request, res: Response) {
+router.post('/signup', function (req: Request, res: Response) {
     User.create({
         name: req.body.name,
         email: req.body.email,
@@ -19,7 +19,7 @@ router.post('/singup', function (req: Request, res: Response) {
     })
 });
 
-router.post('/singin', function (req, res) {
+router.post('/signin', function (req, res) {
     User.findOne({
         email: req.body.email
     },function (err, foundUser) {
