@@ -42,7 +42,13 @@ router.post('/signin', function (req, res) {
 });
 
 router.get('/me', function (req, res) {
-    res.send('me meghívódott');
+    User.findById(req.user._id, function (err, foundUser) {
+        if (err || !foundUser){
+            return res.send(err || 'hiba nincs ilyen felhasználó');
+        }
+        
+        return res.send(foundUser);
+    })
 });
 
 export default router;

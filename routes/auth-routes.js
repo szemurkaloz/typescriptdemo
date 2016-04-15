@@ -35,7 +35,12 @@ router.post('/signin', function (req, res) {
     });
 });
 router.get('/me', function (req, res) {
-    res.send('me meghívódott');
+    user_1.User.findById(req.user._id, function (err, foundUser) {
+        if (err || !foundUser) {
+            return res.send(err || 'hiba nincs ilyen felhasználó');
+        }
+        return res.send(foundUser);
+    });
 });
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = router;

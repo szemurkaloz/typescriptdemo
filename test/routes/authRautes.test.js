@@ -54,5 +54,66 @@ describe('SingIn', function () {
             done();
         });
     });
+    it('/api/auth/signin wrong password', function (done) {
+        request(server_1.default)
+            .post('/api/auth/signin')
+            .send({
+            password: 'passwrong',
+            email: 'level@gmail.com'
+        })
+            .expect(403)
+            .end(function (err, response) {
+            if (err)
+                return done(err);
+            should(response.body.token).not.be.a.String();
+            should(response.body.message).be.equal('email vagy jelszó nem megfelelő!');
+            done();
+        });
+    });
+});
+describe('me', function () {
+    var authToken;
+    before('clean up setup SignIn', function (done) {
+        mongoose.connect(connectionString, function () {
+            mongoose.connection.db.dropDatabase();
+            user_1.User.create({
+                name: 'alex',
+                password: 'pass',
+                email: 'alex@gmail.com'
+            }, function (err, user) {
+                if (err)
+                    return done(err);
+                request(server_1.default)
+                    .post('/api/auth/signin')
+                    .send({
+                    password: 'pass',
+                    email: 'alex@gmail.com'
+                })
+                    .expect(200)
+                    .end(function (err, response) {
+                    if (err)
+                        return done(err);
+                    should(response.body.token).be.a.String();
+                    authToken = response.body.token;
+                    done();
+                });
+            });
+        });
+    });
+    it('/api/auth/me should be succesful', function (done) {
+        request(server_1.default)
+            .get('/api/auth/me')
+            .set('Authorization', authToken)
+            .expect(200)
+            .end(function (err, response) {
+            if (err)
+                return done(err);
+            should(response.body).containEql({
+                name: 'alex',
+                email: 'alex@gmail.com'
+            });
+            done();
+        });
+    });
 });
 //# sourceMappingURL=authRautes.test.js.map
