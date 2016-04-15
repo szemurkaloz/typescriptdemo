@@ -1,8 +1,8 @@
 "use strict";
-var express = require('express');
-var auth_routes_1 = require('../routes/auth-routes');
-var bodyParser = require('body-parser');
-var authMiddlware_1 = require('../routes/authMiddlware');
+const express = require('express');
+const auth_routes_1 = require('../routes/auth-routes');
+const bodyParser = require('body-parser');
+const authMiddlware_1 = require('../routes/authMiddlware');
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

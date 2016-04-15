@@ -1,8 +1,9 @@
 "use strict";
-var express_1 = require('express');
-var user_1 = require('../bin/models/user');
-var Session_1 = require('../bin/models/Session');
-var uuid = require('node-uuid');
+const express_1 = require('express');
+const user_1 = require('../bin/models/user');
+const Session_1 = require('../bin/models/Session');
+const uuid = require('node-uuid');
+const authMiddlware_1 = require('../routes/authMiddlware');
 var router = express_1.Router();
 router.post('/signup', function (req, res) {
     user_1.User.create({
@@ -34,7 +35,7 @@ router.post('/signin', function (req, res) {
         });
     });
 });
-router.get('/me', function (req, res) {
+router.get('/me', authMiddlware_1.isAuthenticated, function (req, res) {
     user_1.User.findById(req.user._id, function (err, foundUser) {
         if (err || !foundUser) {
             return res.send(err || 'hiba nincs ilyen felhasználó');
@@ -42,6 +43,25 @@ router.get('/me', function (req, res) {
         return res.send(foundUser);
     });
 });
+router.get('/greet', authMiddlware_1.isAuthenticated, function (req, res) {
+    var name = req.body.name;
+    greet(name)
+        .then(function (result) {
+        res.send(result);
+    }, function (err) {
+        res.status(400).send(err);
+    });
+});
+function greet(name) {
+    return new Promise(function (resolve, reject) {
+        if (name) {
+            resolve('Helló ' + name);
+        }
+        else {
+            reject(new Error('Nevet kötelező megadni, csak írásjel lehet!'));
+        }
+    });
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = router;
 //# sourceMappingURL=auth-routes.js.map

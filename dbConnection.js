@@ -1,5 +1,5 @@
 "use strict";
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 mongoose.connection.on('connected', function () {
     console.log('mongoose kapcsolódott');
 });

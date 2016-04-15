@@ -1,6 +1,6 @@
 "use strict";
-var server_1 = require('./server');
-var dbConnection_1 = require('../dbConnection');
+const server_1 = require('./server');
+const dbConnection_1 = require('../dbConnection');
 dbConnection_1.connect();
 server_1.default.listen(3000, 'localhost', function (err) {
     if (err) {

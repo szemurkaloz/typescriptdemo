@@ -1,5 +1,5 @@
 "use strict";
-var Session_1 = require('../bin/models/Session');
+const Session_1 = require('../bin/models/Session');
 function authMiddlware(req, res, next) {
     Session_1.Session.findOne({ sid: req.header('Authorization') })
         .populate('user')

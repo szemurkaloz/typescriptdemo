@@ -1,9 +1,9 @@
 "use strict";
-var should = require('should');
-var mongoose = require('mongoose');
-var request = require('supertest');
-var server_1 = require('../../bin/server');
-var user_1 = require('../../bin/models/user');
+const should = require('should');
+const mongoose = require('mongoose');
+const request = require('supertest');
+const server_1 = require('../../bin/server');
+const user_1 = require('../../bin/models/user');
 var connectionString = 'mongodb://127.0.0.1/sampleAppTestDb';
 describe('SignUp', function () {
     before('clean up setup SignUp', function (done) {

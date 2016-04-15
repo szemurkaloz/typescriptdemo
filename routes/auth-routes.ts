@@ -41,7 +41,7 @@ router.post('/signin', function (req, res) {
     })
 });
 
-router.get('/me', function (req, res) {
+router.get('/me', isAuthenticated, function (req, res) {
     User.findById(req.user._id, function (err, foundUser) {
         if (err || !foundUser){
             return res.send(err || 'hiba nincs ilyen felhasználó');
@@ -50,5 +50,27 @@ router.get('/me', function (req, res) {
         return res.send(foundUser);
     })
 });
+
+router.get('/greet', isAuthenticated, function (req, res) {
+    var name = req.body.name;
+    
+    greet(name)
+        .then(function (result) {
+            res.send(result)
+        }, function (err) {
+            res.status(400).send(err)
+        })
+});
+
+function greet (name) {
+    return new Promise(function (resolve, reject){
+        if (name) {
+            resolve('Helló ' + name);
+        } else {
+            reject(new Error('Nevet kötelező megadni, csak írásjel lehet!'))
+        }
+        
+    })
+}
 
 export default router;
